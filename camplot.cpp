@@ -30,6 +30,16 @@ camPlot::camPlot(QWidget *parent) :
     connect(yAxis, SIGNAL(rangeChanged(QCPRange)), yAxis2, SLOT(setRange(QCPRange)));
     connect(this, &QCustomPlot::mouseDoubleClick, this, &camPlot::resetRange);
     setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+
+    QCPItemLine *leftPic = new QCPItemLine(this);
+    leftPic->setPen(QPen(Qt::red));
+    leftPic->start->setCoords(10, 0);
+    leftPic->end->setCoords(10, 4095);
+
+    QCPItemLine *rightPic = new QCPItemLine(this);
+    rightPic->setPen(QPen(Qt::green));
+    rightPic->start->setCoords(117, 0);
+    rightPic->end->setCoords(117, 4095);
 }
 
 void camPlot::update(QVector<double> Linescan)

@@ -10,6 +10,8 @@ class camPlot : public QCustomPlot
 public:
     camPlot(QWidget *parent = 0);
     void update(QVector<double> Linescan);
+    void updatePic(unsigned int leftPic, unsigned int rightPic);
+
 
 public slots:
     void resetRange();

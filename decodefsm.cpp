@@ -2,7 +2,8 @@
 
 decodeFSM::decodeFSM() : deadBeefState(0), state(INIT), LinescanCounter(0), LinescanValue(0), Linescan(NB_PX)
 {
-
+    servoCtrl = new float;
+    encoderRight = new unsigned int;
 }
 
 void decodeFSM::setCam(camPlot *plot, camImage *image)
@@ -10,6 +11,11 @@ void decodeFSM::setCam(camPlot *plot, camImage *image)
     LinescanPlot = plot;
     LinescanImage = image;
 
+}
+
+void decodeFSM::setStatePrinter(quickStateInfo *quickStateInfo)
+{
+    quickState = quickStateInfo;
 }
 void decodeFSM::updateState(char byte)
 {
@@ -23,6 +29,8 @@ void decodeFSM::updateState(char byte)
         deadBeefState = 0;
         state = LINESCAN;
         LinescanValue = 0;
+        floatCounter = 0;
+        motorCounter = 0;
         break;
 
     case LINESCAN:
@@ -35,7 +43,7 @@ void decodeFSM::updateState(char byte)
             Linescan[LinescanCounter/2] = LinescanValue;
 
         }
-        LinescanCounter+= 1;
+        LinescanCounter += 1;
         if (LinescanCounter >= 2*(NB_PX)){
             LinescanCounter = 0;
             LinescanValue = 0;
@@ -48,6 +56,28 @@ void decodeFSM::updateState(char byte)
         break;
 
     case SERVO:
+        floatBuffer[floatCounter++] = byte;
+        //qDebug() << byte;
+
+        if (floatCounter == 4){
+            memcpy(servoCtrl, floatBuffer, 4);
+            //qDebug() << *servoCtrl;
+            floatCounter = 0;
+            quickState->updateServo(*servoCtrl);
+            state = ENCODER_RIGHT;
+
+        }
+
+        break;
+
+    case ENCODER_RIGHT:
+        floatBuffer[floatCounter++] = byte;
+        //qDebug() << byte;
+        if (floatCounter == 4){
+            memcpy(encoderRight, floatBuffer, 4);
+            floatCounter = 0;
+            quickState->updateEncoRight(*encoderRight);
+        }
         break;
 
     default:

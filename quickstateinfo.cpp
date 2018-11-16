@@ -26,3 +26,21 @@ quickStateInfo::quickStateInfo(QWidget *parent) :
     setLayout(formLayout);
 
 }
+
+void quickStateInfo::updateStateInfo(qreal servo_Cmd, qreal rightMotor_Cmd, qreal leftMotor_Cmd, qint32 leftEncoder_Period)
+{
+
+
+}
+
+void quickStateInfo::updateServo(qreal servoCtrl)
+{
+    servoCmd->clear();
+    servoCmd->insert(QString::number(servoCtrl));
+}
+
+void quickStateInfo::updateEncoRight(unsigned int encoderRight)
+{
+    rightEncoderPeriod->clear();
+    rightEncoderPeriod->insert(QString::number(encoderRight));
+}

@@ -5,6 +5,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     cameraMain = new camPlot;
     linescanEvol = new camImage(512);
+    quickInfo = new quickStateInfo;
+
 
     //console = new Console;
     serial = new QSerialPort;
@@ -18,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(cameraMain);
     FSM = new decodeFSM;
     FSM->setCam(cameraMain, linescanEvol);
+    FSM->setStatePrinter(quickInfo);
 
     connect(serial, &QSerialPort::readyRead, this, &MainWindow::readData);
     connect(console, &Console::getData, this, &MainWindow::writeData);
@@ -154,7 +157,6 @@ void MainWindow::createDockWindows()
 {
     QDockWidget *dock = new QDockWidget("Quick Info", this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    quickInfo = new quickStateInfo(dock);
 
     dock->setWidget(quickInfo);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
