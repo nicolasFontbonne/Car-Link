@@ -6,7 +6,7 @@ camImage::camImage(int height)
     imageData = new QImage(128, height,  QImage::Format_Grayscale8);
     for (int i = 0; i < 128 ; i++){
         for (int j = 0 ; j < height ; j++){
-            imageData->setPixelColor(i, j,  QColor::QColor(200, 200, 200));
+            imageData->setPixelColor(i, j,  QColor(200, 200, 200));
         }
     }
     label = new QLabel;
@@ -34,5 +34,5 @@ QLabel *camImage::imshow()
 QColor camImage::colorFromDouble(double value)
 {
     uint val = value/4096*255;
-    return QColor::QColor(val, val, val);
+    return QColor(val, val, val);
 }
