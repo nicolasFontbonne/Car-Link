@@ -12,7 +12,7 @@ settingsDialog::settingsDialog(QWidget *parent) : QDialog(parent)
     const auto infos = QSerialPortInfo::availablePorts();
     for (const QSerialPortInfo &info : infos)
     {
-        if (info.portName().contains("tty."))
+        if (info.portName().contains("tty"))
         {
             serialPortList->addItem(info.portName());
         }
@@ -74,7 +74,7 @@ void settingsDialog::rescan()
     const auto infos = QSerialPortInfo::availablePorts();
     for (const QSerialPortInfo &info : infos)
     {
-        if (info.portName().contains("tty."))
+        if (info.portName().contains("tty"))
         {
             serialPortList->addItem(info.portName());
         }
